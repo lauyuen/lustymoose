@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<script src="bower_components/three.js/build/three.js"></script>
+
+<script src="bower_components/aquarelle/Aquarelle.js"></script>
+
+<script src="bower_components/three.js/examples/js/postprocessing/EffectComposer.js"></script>
+
+<script src="bower_components/three.js/examples/js/postprocessing/ClearPass.js"></script>
+<script src="bower_components/aquarelle/AquarellePass.js"></script>
+<script src="bower_components/three.js/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="bower_components/three.js/examples/js/shaders/CopyShader.js"></script>
+
+<script src="https://bl.ocks.org/mbostock/raw/4241134/d3.geom.contour.min.js"></script>
+
+<style>
+
+    html {
+        display: -webkit-flex;
+        display: flex;
+        height: 100%;
+    }
+
+    body {
+        background-color: #fff;
+        margin: 0;
+        position: relative;
+        width: 100%;
+    }
+
+    .fade {
+        width: 50%;
+        height: 100%;
+    }
+
+    img {
+        display: none;
+    }
+
+    canvas {
+        left: 50%;
+        max-height: 100%;
+        max-width: 100%;
+        position: absolute;
+        top: 50%;
+    }
+    .logo {
+        background-image: url(img/logo.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: absolute;
+        top: 50px;
+        left: 54px;
+        height: 99px;
+        width: 83px;
+    }
+    .menu {
+        background-image: url(img/top_menu.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 7px;
+        position: absolute;
+        right: 36px;
+        top: 34px;
+        width: 239px;
+    }
+    .title {
+        background-image: url(img/title.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 120px;
+        left: 50%;
+        margin-left: -224px;
+        margin-top: -189px;
+        position: absolute;
+        top: 50%;
+        width: 448px;
+    }
+    
+    .subtitle {
+        font: 3em 'Pier Sans';
+        text-transform: uppercase;
+        position: absolute;
+        bottom: 100px;
+        right: 400px;
+        width: 200px;
+    }
+
+    .s1, .s2 {
+        opacity: 0;
+        color: #000000;
+    }
+
+    .black {
+        color: #000000;        
+    }
+
+    .s3, .s4 {
+        opacity: 0;        
+        color: #E91E63
+    }
+</style>
+
+<div class="fade">
+    <img src="img/splash.png">
+    <div class="top">
+        <div class="logo"></div>
+    </div>
+    <div class="title"></div>
+    <div class="subtitle">
+        <span class="s1">Experience</span>
+        <span class="s2">focused</span>
+        <span class="s3">design&nbsp;<span class="black">and</span></span>
+        <span class="s4">engineering<span class="black">.</span></span>
+    </div>
+</div>
+
+<script>
+
+    var fade = document.querySelector('.fade');
+    var topNav = document.querySelector('.top');
+    var title = document.querySelector('.title');
+
+    var s1 = document.querySelector('.s1');
+    var s2 = document.querySelector('.s2');
+    var s3 = document.querySelector('.s3');
+    var s4 = document.querySelector('.s4');
+
+    var image = document.getElementsByTagName('img')[0];
+    var aquarelle = new Aquarelle(image, 'img/mask.png', {
+        autoplay: true,
+        loop: false,
+        duration: 6000
+    });
+
+    aquarelle.addEventListener('created', function() {
+        var canvas = this.getCanvas();
+        canvas.removeAttribute('style');
+        image.parentNode.insertBefore(canvas, image.nextSibling);
+        image.parentNode.removeChild(image);
+    });
+
+    aquarelle.addEventListener('changed', function(event) {
+        // fade.style.opacity = this.transitionInRange(1, 0, 7183, 7933);
+        topNav.style.opacity = this.transitionInRange(0, 1, 2330, 4660);
+        var canvas = this.getCanvas();
+        canvas.style.webkitFilter = 'blur(' + this.transitionInRange(0, 12, 3000) + 'px)';
+        canvas.style.webkitTransform = canvas.style.transform = 'translate(-50%, -50%) scale(' + this.transitionInRange(.75, 1) + ')';
+        
+        s1.style.opacity = this.transitionInRange(0, 1, 1000, 4016);
+        s1.style.webkitTransform = s1.style.transform = 'scale(' + this.transitionInRange(.8, 1, 0, 5883) + ')';
+        
+        s2.style.opacity = this.transitionInRange(0, 1, 1516, 4516);
+        s2.style.webkitTransform = s2.style.transform = 'scale(' + this.transitionInRange(.8, 1, 0, 5883) + ')';
+
+        s3.style.opacity = this.transitionInRange(0, 1, 2016, 5016);
+        s3.style.webkitTransform = s3.style.transform = 'scale(' + this.transitionInRange(.8, 1, 0, 5883) + ')';
+
+        s4.style.opacity = this.transitionInRange(0, 1, 2516, 5516);
+        s4.style.webkitTransform = s4.style.transform = 'scale(' + this.transitionInRange(.8, 1, 0, 5883) + ')';
+    });
+
+
+</script>
+</body>
+</html>
